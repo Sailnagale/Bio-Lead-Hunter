@@ -1,0 +1,6 @@
+streamlit
+pandas
+google-search-results
+requests
+python-dotenv
+duckduckgo-search
