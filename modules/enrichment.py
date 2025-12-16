@@ -20,10 +20,10 @@ def discover_new_leads(role, location):
     """
     leads = []
     
-   
+    
     if SERPAPI_KEY:
         try:
-            
+          
             query = f'site:linkedin.com/in/ "{role}" "{location}"'
             params = {"api_key": SERPAPI_KEY, "engine": "google", "q": query, "num": 5}
             search = GoogleSearch(params)
@@ -49,7 +49,7 @@ def discover_new_leads(role, location):
   
     if not leads:
         try:
-         
+           
             with DDGS() as ddgs:
                 query = f'site:linkedin.com/in/ {role} {location}'
                 results = list(ddgs.text(query, max_results=5))
@@ -62,11 +62,12 @@ def discover_new_leads(role, location):
         except:
             pass
 
+    
     if not leads:
         try:
-          
+            
             topic = role.replace("Director of ", "").replace("Head of ", "").replace("Scientist", "").strip()
-            if len(topic) < 3: topic = "Toxicity" # Default fallback
+            if len(topic) < 3: topic = "Toxicity" 
             
             
             url = f"https://api.openalex.org/works?search={topic}&filter=from_publication_date:2023-01-01&per-page=5"
@@ -75,16 +76,16 @@ def discover_new_leads(role, location):
             if response.status_code == 200:
                 data = response.json()
                 for work in data.get('results', []):
-            
+                   
                     if work.get('authorships'):
                         author_data = work['authorships'][0]
                         author_name = author_data['author']['display_name']
                         
-                        
+                       
                         institutions = author_data.get('institutions', [])
                         company = institutions[0]['display_name'] if institutions else "Research Institution"
                         
-                     
+                       
                         country = institutions[0].get('country_code', 'Global') if institutions else "Global"
                         
                         leads.append({
@@ -96,7 +97,7 @@ def discover_new_leads(role, location):
         except Exception as e:
             print(f"OpenAlex Discovery Failed: {e}")
 
-    
+   
     is_science_fallback = (len(leads) > 0 and "Lead Researcher" in leads[0]['Title'])
     return leads, is_science_fallback
 
@@ -134,6 +135,7 @@ def check_funding_signal(company_name):
     except:
         pass
     return False, "No recent funding found"
+
 
 def get_linkedin_data(name, company_name):
     return {"city": "Unknown", "role": "Unknown"}
