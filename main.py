@@ -16,7 +16,7 @@ with st.sidebar:
     st.title("Bio-Lead Hunter")
     
     st.markdown("""
-    **Developed by:** ### 👨‍💻 Sail Nagale  
+    *Developed by:* **Sail Nagale**  
     *VIT Pune | Research Intern*
     """)
     
